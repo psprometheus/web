@@ -1,0 +1,116 @@
+#include <SFML/Graphics.hpp>
+#include <iostream>
+
+int main()
+{
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Window");
+
+    sf::RectangleShape exshape;
+
+    exshape.setFillColor(sf::Color::Red);
+
+    exshape.setPosition(sf::Vector2f(100, 100));
+    
+    exshape.setSize(sf::Vector2f(200, 100));
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+            }
+        }
+
+        window.draw(exshape);
+
+        window.clear();
+
+        window.display();
+    }
+
+    return 0;
+}
+
+
+
+#include <iostream>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <string>
+#include <fstream>
+#include <signal.h>
+#include <sstream>
+#include <thread>
+
+using namespace std;
+
+int s;
+
+int opt = 1;
+
+char buffer[1024];
+
+ifstream html("index.html");
+
+void applyReponse(string& rep, string body)
+{
+    rep += "HTTP/1.1 200 OK\r\n";
+    rep += "Content-Type: text/html\r\n";
+    rep += "Connection: keep-alive\r\n";
+    rep += "Content-Length: " + to_string(body.size()) += "\r\n\r\n";
+    rep += body;
+}
+
+void handleClient(int cs, string& index)
+{
+    recv(cs, buffer, sizeof(buffer), 0);
+
+    send(cs, index.c_str(), index.size(), 0);
+
+    close(cs);
+}
+
+void handleSignal(int a)
+{
+    exit(0);
+}
+
+int main()
+{
+    signal(SIGINT, handleSignal);
+
+    stringstream ss;
+
+    ss << html.rdbuf();
+
+    string index;
+
+    applyReponse(index, ss.str());
+
+    s = socket(AF_INET, SOCK_STREAM, 0);
+
+    setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
+    sockaddr_in server, client;
+    server.sin_addr.s_addr = INADDR_ANY;
+    server.sin_port = htons(8100);
+    server.sin_family = AF_INET;
+
+    bind(s, (sockaddr*)&server, sizeof(server));
+
+    listen(s, SOMAXCONN);
+
+    while(true)
+    {
+        int cs = accept(s, nullptr, nullptr);
+
+        thread t(handleClient, cs, index);
+
+        t.detach();
+    }
+
+}
