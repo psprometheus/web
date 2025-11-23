@@ -1,6 +1,5 @@
 #include <crow.h>
-#include <iostream>
-
+#include <string>
 using namespace std;
 
 
@@ -9,27 +8,21 @@ int main()
     crow::SimpleApp app;
 
     CROW_ROUTE(app, "/")([](){
-        auto page = crow::mustache::load_text("index.html");
-
-        return page;
-    });
-    CROW_ROUTE(app, "/preview.txt")([](){
         crow::response rep;
-        rep.set_static_file_info("preview.txt");
+        rep.set_static_file_info("index.html");
 
         return rep;
     });
-    CROW_ROUTE(app, "/knight3.mp4")([](){
+    CROW_ROUTE(app, "/souls")([](){
         crow::response rep;
-        rep.set_static_file_info("knight3.mp4");
+        rep.set_static_file_info("souls.html");
 
         return rep;
     });
-    CROW_ROUTE(app, "/style.css")([](){
-       crow::response rep;
-       rep.set_static_file_info("style.css");
-       
-       return rep;
+    CROW_ROUTE(app, "/<string>")([](string filename){
+        crow::response rep;
+        rep.set_static_file_info(filename);
+        return rep;
     });
 
     app.port(80).multithreaded().run();
