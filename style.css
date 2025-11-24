@@ -276,6 +276,7 @@
   left: 100vw;
   width: 30px;
   animation-delay: 1500ms;
+  z-index: -1;
 }
 
 @keyframes words-animation{
