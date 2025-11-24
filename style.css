@@ -294,10 +294,28 @@
   border: none;
   z-index: -1;
   animation: forplant1 1s ease-out forwards;
-  animation-delay: 1500ms;
+  animation-delay: 3000ms;
+}
+
+#plant2{
+  position: fixed;
+  top: 100%;
+  left: 100%;
+  transform: translate(0%, 0%);
+  background: transparent;
+  border: none;
+  height: auto;
+  z-index: -1;
+  animation: forplant2 1s ease-out forwards;
+  animation-delay: 3000ms;
 }
 
 @keyframes forplant1{
   0% {transform: translate(-100%, -100%);}
   100% {transform: translate(-50%, -50%);}
+}
+
+@keyframes forplant2{
+  0% {transform: translate(-0%, -0%);}
+  100% {transform: translate(-60%, -60%);}
 }
