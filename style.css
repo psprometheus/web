@@ -294,7 +294,7 @@
   background: transparent;
   border: none;
   z-index: -1;
-  animation: forplant1 1s ease forwards;
+  animation: forplant1 1s ease-out forwards;
   animation-delay: 3000ms;
 }
 
@@ -307,7 +307,7 @@
   border: none;
   height: auto;
   z-index: -1;
-  animation: forplant2 1s ease forwards;
+  animation: forplant2 1s ease-out forwards;
   animation-delay: 3000ms;
 }
 
