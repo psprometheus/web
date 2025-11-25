@@ -253,6 +253,7 @@
   position: fixed;
   left: 0%;
   height: auto;
+  background-color: white;
 }
 
 .close-button{
